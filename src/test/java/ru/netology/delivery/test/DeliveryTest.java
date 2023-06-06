@@ -16,7 +16,6 @@ class DeliveryTest {
     @BeforeEach
     void setup() {
         open("http://localhost:9999");
-        $("[data-test-id='date'] input").doubleClick().sendKeys(Keys.DELETE);
     }
 
     @Test
@@ -27,6 +26,7 @@ class DeliveryTest {
         var daysToAddForSecondMeeting = 7;
         var secondMeetingDate = DataGenerator.generateDate(daysToAddForSecondMeeting);
         $("[data-test-id='city'] input").val(DataGenerator.generateCity());
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").sendKeys(firstMeetingDate);
         $("[data-test-id='name'] input").val(DataGenerator.generateName());
         $("[data-test-id='phone'] input").val(DataGenerator.generatePhone());
@@ -37,6 +37,8 @@ class DeliveryTest {
         $(".button").click();
         $("[data-test-id='replan-notification']").shouldHave(text("У вас уже запланирована встреча на другую дату." +
                 " Перепланировать?"));
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("[data-test-id='date'] input").sendKeys(secondMeetingDate);
         $(byText("Перепланировать")).click();
         $("[data-test-id='success-notification']").shouldHave(text("Встреча успешно запланирована на "
                 + secondMeetingDate));
@@ -48,6 +50,7 @@ class DeliveryTest {
         var daysToAddForFirstMeeting = 4;
         var firstMeetingDate = DataGenerator.generateDate(daysToAddForFirstMeeting);
         $("[data-test-id='city'] input").val(DataGenerator.generateCity());
+        $("[data-test-id='date'] input").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").sendKeys(firstMeetingDate);
         $("[data-test-id='name'] input").val(DataGenerator.generateName());
         $("[data-test-id='phone'] input").val(DataGenerator.generatePhone());
